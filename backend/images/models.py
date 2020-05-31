@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Image(models.Model):
-    image = models.ImageField()
+    image = models.TextField(max_length=10000)
     name = models.CharField(max_length=100)
     owner = models.ForeignKey(
         User,
