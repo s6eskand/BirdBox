@@ -1,6 +1,7 @@
 from ..models import Image
 from rest_framework import viewsets, permissions
 from .serializers import ImageSerializer
+from rest_framework.response import Response
 
 
 class ImageViewSet(viewsets.ModelViewSet):
@@ -10,8 +11,5 @@ class ImageViewSet(viewsets.ModelViewSet):
 
     serializer_class = ImageSerializer
 
-    def get_queryset(self):
+    def get(self):
         return self.request.user.images.all()
-
-    def perform_create(self, serializer):
-        serializer.save(owner=self.request.user)
