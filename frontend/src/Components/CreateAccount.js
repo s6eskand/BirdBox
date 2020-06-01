@@ -113,7 +113,7 @@ class CreateAccount extends React.Component {
                     </Form.Field>
                     <p style={{display: this.state.display, color: '#D7373D'}}>Your passwords do not match</p>
                     <p>Already have an account? <Link to="login">Log in here</Link></p>
-                    <Button primary type='submit' onSubmit={this.handleSubmit}>Submit</Button>
+                    <Button primary type='submit' onClick={this.handleSubmit}>Submit</Button>
                 </Form>
             </div>
         );
