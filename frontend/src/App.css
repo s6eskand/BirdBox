@@ -24,3 +24,20 @@ a {
   border: 2px solid rgb(217, 217, 217);
   background-color: rgb(217, 217, 217);
 }
+
+.bird-images {
+  text-align: center;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translateY(-50%) translateX(-50%);
+}
+
+.birds {
+  display: flex;
+  flex-direction: row;
+}
+
+.bird-card {
+  padding: 50px;
+}
