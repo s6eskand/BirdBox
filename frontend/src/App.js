@@ -1,6 +1,6 @@
 import React from 'react';
 import './App.css';
-import { HashRouter as Router, Route, Switch} from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 import CreateAccount from "./Components/CreateAccount";
 import 'semantic-ui-css/semantic.min.css';
 import { Provider } from 'react-redux';

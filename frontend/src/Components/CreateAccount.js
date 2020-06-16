@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, Form } from "semantic-ui-react";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
+import { connect } from "react-redux";
 
 class CreateAccount extends React.Component {
     constructor(props) {
@@ -120,4 +121,10 @@ class CreateAccount extends React.Component {
     }
 }
 
-export default CreateAccount;
+const mapStateToProps = (state) => {
+    return {
+        isAuthenticated: state.token !== null
+    }
+}
+
+export default connect(mapStateToProps)(CreateAccount);
