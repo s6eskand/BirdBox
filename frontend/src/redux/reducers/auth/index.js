@@ -1,43 +1,51 @@
 import {
-    AUTH_FAIL,
-    AUTH_LOGOUT,
-    AUTH_START,
-    AUTH_SUCCESS,
+    AUTH_REGISTER,
+    AUTH_LOGIN,
+    AUTH_LOGOUT
 } from "../../constants/auth";
+import storage from 'redux-persist/lib/storage';
+import {
+    persistReducer
+} from "redux-persist";
+import {
+    AUTH_KEY
+} from "../../constants/keys";
 
 const initialState = {
     token: null,
-    error: null,
-    loading: null
+    loading: null,
+    isAuthenticated: false
 };
 
-export default function(state = initialState, action) {
+const auth = (state = initialState, action) => {
     switch (action.type) {
-        case AUTH_START:
-            return {
-                ...state,
-                error: null,
-                loading: true
-            };
-        case AUTH_SUCCESS:
-            return {
-                ...state,
-                token: action.token,
-                error: null,
-                loading: false
-            };
-        case AUTH_FAIL:
-            return {
-                ...state,
-                error: action.error,
-                loading: false
-            };
         case AUTH_LOGOUT:
             return {
                 ...state,
-                token: null
+                token: action.token,
+                isAuthenticated: action.isAuthenticated
+            };
+        case AUTH_LOGIN:
+            return {
+                ...state,
+                token: action.token,
+                isAuthenticated: action.isAuthenticated
+            };
+        case AUTH_REGISTER:
+            return {
+                ...state,
+                token: action.token,
+                isAuthenticated: action.isAuthenticated
             };
         default:
             return state
     }
-}
+};
+
+const config = {
+    key: AUTH_KEY,
+    storage: storage,
+    whitelist: ['token', 'isAuthenticated',],
+};
+
+export default persistReducer(config, auth);
