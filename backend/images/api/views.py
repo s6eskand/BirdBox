@@ -6,10 +6,11 @@ from rest_framework.generics import ListCreateAPIView
 
 class ImageViewSet(ListCreateAPIView):
 
-    # just allow any for now until I set up redux and private routes on client side
-    # if you cant retrieve data from here/are getting 403 Errors, ensure CORS is enabled on whichever server youre using
+    # Only allows for authenticated users
+    # To access this endpoint add "Authorization": "Token" + <token> to request headers
+    # Invalid token will result in 401 error
     permission_classes = [
-        permissions.AllowAny
+        permissions.IsAuthenticated
     ]
 
     queryset = Image.objects.all()
