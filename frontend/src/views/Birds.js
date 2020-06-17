@@ -1,5 +1,20 @@
 import React from 'react';
-import { Card, Image, Container, Grid } from 'semantic-ui-react';
+import { Card, Image, Container, } from 'semantic-ui-react';
+import axios from 'axios';
+
+// constants
+import {
+    GET_AND_POST_IMAGES
+} from "../constants/endpoints";
+
+// redux
+import {
+    logoutSelector
+} from "../redux/selectors/auth";
+import {
+    logout
+} from "../redux/actions/auth";
+import withShipment from "../withShipment";
 
 class Birds extends React.Component {
     constructor(props) {
@@ -10,8 +25,12 @@ class Birds extends React.Component {
     }
 
     componentDidMount() {
-        fetch('http://127.0.0.1:8000/api/images/')
-            .then(res => res.json())
+        axios.get(GET_AND_POST_IMAGES, {
+            headers: {
+                "Authorization": "Token " + this.props.token
+            }
+        })
+            .then(res => res.data)
             .then(res => {
                 if (res) {
                     res.map(bird => {
@@ -33,7 +52,7 @@ class Birds extends React.Component {
                         <h1>All your birbs!</h1>
                         <div className="birds">
                             {this.state.birdImages.map(bird =>
-                                <div id={bird.id} className="bird-card">
+                                <div key={bird.id} className="bird-card">
                                     <Card>
                                         <Image src={bird.image} wrapped ui={false} />
                                         <Card.Content>
@@ -52,10 +71,24 @@ class Birds extends React.Component {
             )
         } else {
             return(
-                <h1 className="bird-images">You have no birbs visit you yet :( head up king, you dropped this *crown*</h1>
+                <div>
+                    <h1 className="bird-images">You have no birbs visit you yet :( head up king, you dropped this *crown*</h1>
+                    <img style={{position: 'fixed', top: '20px', left: '50px'}} src="https://lh3.googleusercontent.com/proxy/NNCSP7uaiQOQ6P5DJVF9th_Pe6a3y_DDSPvlptK3xk8oS9edjGkiixvKjMJjL7AFEiJZ3onlhTNpZv4y-Gq7Pev8DXC8UFDqr3M1FE3PRH3EI5bEQUDuDgr5xLF0P46zDHDURkO3bmb-wk3gyMe9y7fZr4e2qbs4yQnHnpjdNho8cnPEN75cPCWOeHUZs0EV" alt=""/>
+                </div>
             )
         }
     }
 }
 
-export default Birds;
+const mapStateToProps = (state) => ({
+    token: logoutSelector(state),
+});
+
+const actionCreators = {
+    logout
+};
+
+export default withShipment({
+    mapStateToProps,
+    actionCreators
+}, Birds);
