@@ -6,18 +6,18 @@ import axios from 'axios';
 // constants
 import {
     LOGIN_ENDPOINT
-} from "../constants/endpoints";
+} from "../../constants/endpoints";
 
 
 // redux
 import {
     loginTokenSelector,
     loginAuthSelector,
-} from "../redux/selectors/auth";
+} from "../../redux/selectors/auth";
 import {
     login,
-} from "../redux/actions/auth";
-import withShipment from "../withShipment";
+} from "../../redux/actions/auth";
+import withShipment from "../../withShipment";
 
 class Login extends React.Component {
     constructor(props) {
