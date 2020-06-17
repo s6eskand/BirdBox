@@ -3,6 +3,22 @@ import { Button, Form } from "semantic-ui-react";
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 
+// constants
+import {
+    LOGIN_ENDPOINT
+} from "../constants/endpoints";
+
+
+// redux
+import {
+    loginTokenSelector,
+    loginAuthSelector,
+} from "../redux/selectors/auth";
+import {
+    login,
+} from "../redux/actions/auth";
+import withShipment from "../withShipment";
+
 class Login extends React.Component {
     constructor(props) {
         super(props);
@@ -33,16 +49,13 @@ class Login extends React.Component {
     handleSubmit = async (e) => {
         e.preventDefault();
 
-        axios.post('http://127.0.0.1:8000/api/auth/login', {
+        axios.post(LOGIN_ENDPOINT, {
             username: this.state.username,
-            email: this.state.email,
             password: this.state.password
         })
             .then(res => {
-                console.log(res);
-                this.setState({
-                    display: 'none'
-                })
+                this.props.login(res.data.token);
+                this.props.history.push('/');
             })
             .catch(err => {
                 console.error(err);
@@ -54,8 +67,6 @@ class Login extends React.Component {
     };
 
     render() {
-
-        console.log(this.state);
         return(
             <div id="createAccount" className="register-form">
                 <Form>
@@ -78,7 +89,7 @@ class Login extends React.Component {
                       />
                     </Form.Field>
                     <p style={{display: this.state.display, color: '#D7373D'}}>Your username or password are incorrect</p>
-                    <p>Already have an account? <Link to="login">Log in here</Link></p>
+                    <p>Don't have an account? <Link to="/register">Create one here</Link></p>
                     <Button primary type='submit' onClick={this.handleSubmit}>Submit</Button>
                 </Form>
             </div>
@@ -86,4 +97,16 @@ class Login extends React.Component {
     }
 }
 
-export default Login;
+const mapStateToProps = (state) => ({
+    token: loginTokenSelector(state),
+    isAuthenticated: loginAuthSelector(state)
+});
+
+const actionCreators = {
+    login,
+};
+
+export default withShipment({
+    mapStateToProps,
+    actionCreators
+}, Login);
