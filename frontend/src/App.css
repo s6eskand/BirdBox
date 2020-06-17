@@ -41,3 +41,9 @@ a {
 .bird-card {
   padding: 50px;
 }
+
+@media screen and (max-width: 1300px) {
+  .bird-images {
+    padding-top: 250px;
+  }
+}
